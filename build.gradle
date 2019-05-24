@@ -1,0 +1,45 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.1"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+        }
+    }
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java']
+            jniLibs.srcDirs = ['/libs']
+        }
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
+    }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+    lintOptions {
+        abortOnError false
+        checkAllWarnings false
+        checkReleaseBuilds false
+    }
+}
+
+dependencies {
+    compileOnly files('libs/gdx.jar')
+    compileOnly files('libs/gdx-backend-android.jar')
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+}
